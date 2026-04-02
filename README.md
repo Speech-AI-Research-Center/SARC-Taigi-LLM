@@ -1,6 +1,6 @@
 # Taigi-Gemma-3: A Multi-Stage Reasoning Alignment Pipeline
 
-This repository provides a specialized, high-performance pipeline for fine-tuning **Gemma-3-27B-it** to excel in **Taiwanese (Taigi)**. Our methodology follows a structured progression from linguistic knowledge acquisition to sophisticated reasoning alignment.
+This repository provides a specialized, high-performance pipeline for fine-tuning **Gemma-3-12b-it** and **Gemma-3-27b-it** to excel in **Taiwanese (Taigi)**. Our methodology follows a structured progression from linguistic knowledge acquisition to sophisticated reasoning alignment.
 
 ---
 
