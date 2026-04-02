@@ -55,7 +55,7 @@ In SFT mode, the callback explicitly sets `control.should_save = False`. This ov
 
 ## Roadmap: Towards GRPO
 
-We are preparing to implement **GRPO (Group Relative Policy Optimization)** as seen in DeepSeek-R1:
+We are preparing to implement **GRPO (Group Relative Policy Optimization)**:
 * **Reasoning Enhancement**: Developing rule-based rewards for Taigi logical puzzles.
 * **Chain-of-Thought (CoT)**: Training the model to perform self-reflection and step-by-step reasoning in Taigi.
 
