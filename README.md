@@ -4,7 +4,7 @@ This repository provides a specialized, high-performance pipeline for fine-tunin
 
 ---
 
-## 🏗️ The Roadmap: A Three-Phase Evolution
+## The Roadmap: A Three-Phase Evolution
 
 Our project is designed as a three-stage technical stack to build a Taigi model with deep comprehension and self-reasoning capabilities.
 
@@ -23,7 +23,7 @@ Our project is designed as a three-stage technical stack to build a Taigi model 
 
 ---
 
-## 🌟 Key Technical Features
+## Key Technical Features
 
 ### 1. Integrated Automated Workflow
 The script `cpt_sft_final.py` automates the transition between phases, including an "Atomic Handoff" that identifies the **Rank 1** checkpoint from CPT and loads it as the seed for SFT.
