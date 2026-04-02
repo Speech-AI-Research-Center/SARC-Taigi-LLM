@@ -1,41 +1,37 @@
-# Gemma-3-27B-Taigi: A DeepSeek-R1 Inspired Training Pipeline
+# Gemma-3-Taigi: A Multi-Stage Reasoning Alignment Pipeline
 
-This repository contains the complete pipeline for fine-tuning **Gemma-3-27B-it** for **Taiwanese Hokkien (Taigi)** and Traditional Chinese. Our methodology is inspired by the **DeepSeek-R1** training procedure, currently implementing the **CPT** and **SFT** stages, with architecture ready for future **GRPO** (Group Relative Policy Optimization) reinforcement learning.
-
----
-
-## Project Highlights
-
-* **Base Model**: Google Gemma-3-27B-it.
-* **Technique**: QLoRA (4-bit) for efficient large-parameter tuning.
-* **Target Language**: Taiwanese Hokkien (Hanzi & Romanization) and Traditional Chinese.
-* **Inspiration**: Follows the DeepSeek-R1 philosophy of building a solid linguistic foundation before reasoning alignment.
+This repository provides a specialized, high-performance pipeline for fine-tuning **Gemma-3-27B-it** to excel in **Taiwanese (Taigi)**. Our methodology follows a structured progression from linguistic knowledge acquisition to sophisticated reasoning alignment.
 
 ---
 
-## Two-Stage Training Pipeline
+## 🏗️ The Roadmap: A Three-Phase Evolution
 
-The entire process is integrated into a single script `cpt_sft_final.py`, featuring automated stage transition and memory management.
+Our project is designed as a three-stage technical stack to build a Taigi model with deep comprehension and self-reasoning capabilities.
 
-### Phase 1: Continual Pre-Training (CPT)
-* **Goal**: Expand the model's knowledge base with Taigi literature and dictionaries.
-* **Key Datasets**: 
-    * `moedict.json`: Ministry of Education Dictionary of Frequently-Used Taiwanese Taigi.
-    * `taigi-literature`: A collection of classical and modern Taigi literary texts.
-* **Strategy: `SaveBestCheckpointsCallback`**
-    * **Metric**: Minimized **Evaluation Loss**.
-    * **Benefit**: Ensures the model captures linguistic patterns without "catastrophic forgetting" of general knowledge.
+### 1. Phase I: Continual Pre-Training (CPT) - *Completed*
+* **Goal**: Expand the model's knowledge base with Taigi literature and formal dictionaries.
+* **Strategy**: Uses **`SaveBestCheckpointsCallback`** to prioritize **Evaluation Loss**, ensuring a robust linguistic foundation without losing general knowledge.
 
-### Phase 2: Supervised Fine-Tuning (SFT)
-* **Goal**: Align the model to follow instructions and perform logical reasoning in Taigi.
-* **Key Datasets**: 
-    * `alpaca_gpt4_data_zh_tw.json`: Taigi-version Alpaca instruction set.
-    * `tech_training_dataset.json`: Technical multiple-choice questions in Taigi.
-* **Strategy: `AsyncGapMinimizationCallback`**
-    * **Metric**: Minimized **Generalization Gap** ($|Avg(TrainLoss) - EvalLoss|$).
-    * **Benefit**: Uses asynchronous sampling (Moving Average) to filter out overfitted checkpoints, providing a stable foundation for future RL stages.
+### 2. Phase II: Supervised Fine-Tuning (SFT) - *Current Status*
+* **Goal**: Align the model to follow instructions and perform logical tasks in Taigi.
+* **Strategy**: Uses **`AsyncGapMinimizationCallback`** to minimize the **Generalization Gap**. By calculating the moving average of training loss against validation loss, we identify the most stable checkpoints for reliable dialogue.
 
+### 3. Phase III: GRPO (Group Relative Policy Optimization) - *Upcoming*
+* **Goal**: Transition from supervised learning to **Reinforcement Learning (RL)**.
+* **Mechanism**: We plan to implement **GRPO** to enhance the model's reasoning chains (CoT) for complex Taigi linguistic puzzles and technical queries.
+* **Benefit**: Unlike traditional PPO, GRPO will allow us to optimize the model using group-based relative rewards, significantly improving its self-correction and logical consistency in low-resource language contexts.
 
+---
+
+## 🌟 Key Technical Features
+
+### 1. Integrated Automated Workflow
+The script `cpt_sft_final.py` automates the transition between phases, including an "Atomic Handoff" that identifies the **Rank 1** checkpoint from CPT and loads it as the seed for SFT.
+
+### 2. Intelligent Checkpoint Selection
+We move beyond simple step-based saving. Our callbacks monitor:
+* **Knowledge Density**: Through precise Eval Loss tracking during CPT.
+* **Generalization Stability**: Through asynchronous gap sampling during SFT, ensuring the model is "GRPO-ready" by minimizing overfitting.
 
 ---
 
