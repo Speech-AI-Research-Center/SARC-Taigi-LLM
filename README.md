@@ -69,7 +69,7 @@ The pipeline generates real-time ranking reports:
 
 ## Model Download
 > **SARC-Taigi-LLM** is now available on Hugging Face!  
-> [**Download the Model Weights here**]([https://huggingface.co/Speech-AI-Research-Center/SARC-Taigi-LLM](https://huggingface.co/Speech-AI-Research-Center/SARC-Taigi-LLM))
+> **[Download the Model Weights here: [SARC-Taigi-LLM](https://huggingface.co/Speech-AI-Research-Center/SARC-Taigi-LLM)]**
 
 ---
 
