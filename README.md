@@ -33,7 +33,7 @@ Our project is designed as a three-stage technical stack to build a Taigi model 
 ## Key Technical Features
 
 ### 1. Integrated Automated Workflow
-The script `cpt_sft_final.py` automates the transition between phases, including an "Atomic Handoff" that identifies the **Rank 1** checkpoint from CPT and loads it as the seed for SFT.
+The script `cpt_sft_final.py` automates the transition between phases by identifying the **Rank 1** checkpoint from CPT and loads it as the seed for SFT.
 
 ### 2. Intelligent Checkpoint Selection
 We move beyond simple step-based saving. Our callbacks monitor:
@@ -50,7 +50,7 @@ The script automatically detects GPU counts via `torch.cuda.device_count()` and 
 * `dataloader_num_workers` & `pin_memory`: Optimized data throughput to eliminate I/O bottlenecks.
 
 ### 2. Automated Weight Inheritance
-Between CPT and SFT, the script performs an "Atomic Handoff":
+Between CPT and SFT, the script performs an automatical "handoff":
 1. **Rank 1 Extraction**: Automatically identifies the best checkpoint from the CPT leaderboard.
 2. **DDP Synchronization**: Uses `dist.broadcast_object_list` to ensure all GPU nodes load the exact same "Best" path.
 3. **Memory Recovery**: Forces `gc.collect()` and `cuda.empty_cache()` to prevent OOM during the 27B model swap.
