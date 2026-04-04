@@ -5,15 +5,23 @@ This repository provides a specialized, high-performance pipeline for fine-tunin
 
 ## The Roadmap: A Three-Phase Evolution
 
-Our project is designed as a three-stage technical stack to build a Taigi model with deep comprehension and self-reasoning capabilities.
+Our project is designed as a three-stage technical stack to build a Taigi model with deep comprehension and self-reasoning capabilities. The current implementation (Phase I & II) is integrated into a single script `cpt_sft_final.py`, featuring automated stage transition and memory management.
 
 ### 1. Phase I: Continual Pre-Training (CPT) - *Completed*
 * **Goal**: Expand the model's knowledge base with Taigi literature and formal dictionaries.
-* **Strategy**: Uses **`SaveBestCheckpointsCallback`** to prioritize **Evaluation Loss**, ensuring a robust linguistic foundation without losing general knowledge.
+* **Key Datasets**: 
+    * `moedict.json`: Ministry of Education Dictionary of Frequently-Used Taiwanese Taigi.
+    * `taigi-literature`: A collection of classical and modern Taigi literary texts.
+* **Strategy**: Uses **`SaveBestCheckpointsCallback`** to prioritize **Evaluation Loss**.
+* **Benefit**: Ensures the model captures intricate linguistic patterns and internalizes Taigi knowledge without "catastrophic forgetting" of the base model's general capabilities.
 
 ### 2. Phase II: Supervised Fine-Tuning (SFT) - *Current Status*
-* **Goal**: Align the model to follow instructions and perform logical tasks in Taigi.
-* **Strategy**: Uses **`AsyncGapMinimizationCallback`** to minimize the **Generalization Gap**. By calculating the moving average of training loss against validation loss, we identify the most stable checkpoints for reliable dialogue.
+* **Goal**: Align the model to follow instructions and perform logical reasoning in Taigi.
+* **Key Datasets**: 
+    * `alpaca_gpt4_data_zh_tw.json`: Taigi-version Alpaca instruction set for dialogue alignment.
+    * `tech_training_dataset.json`: Multiple-choice questions from the training text of the 1st **"Grand Challenge" (科技大擂台)** competition.
+* **Strategy**: Uses **`AsyncGapMinimizationCallback`** to minimize the **Generalization Gap** ($|Avg(TrainLoss) - EvalLoss|$).
+* **Benefit**: Employs asynchronous sampling (Moving Average) to filter out overfitted checkpoints, identifying the most stable models to provide a reliable foundation for future RL stages.
 
 ### 3. Phase III: GRPO (Group Relative Policy Optimization) - *Upcoming*
 * **Goal**: Transition from supervised learning to **Reinforcement Learning (RL)**.
