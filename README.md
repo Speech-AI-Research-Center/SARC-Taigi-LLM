@@ -5,7 +5,7 @@ This repository provides a specialized, high-performance pipeline for fine-tunin
 
 ## The Roadmap: A Three-Phase Evolution
 
-Our project is designed as a three-stage technical stack to build a Taigi model with deep comprehension and self-reasoning capabilities. The current implementation (Phase I & II) is integrated into a single script `cpt_sft_final.py`, featuring automated stage transition and memory management.
+Our project is designed as a three-stage technical stack to build a Taigi model with deep comprehension and self-reasoning capabilities. The current implementation (Phase I & II) is integrated into a single script `cpt_sft_27b.py` (`cpt_sft_12b.py`), featuring automated stage transition and memory management.
 
 ### 1. Phase I: Continual Pre-Training (CPT) - *Completed*
 * **Goal**: Expand the model's knowledge base with Taigi literature and formal dictionaries.
@@ -33,7 +33,7 @@ Our project is designed as a three-stage technical stack to build a Taigi model 
 ## Key Technical Features
 
 ### 1. Integrated Automated Workflow
-The script `cpt_sft_final.py` automates the transition between phases by identifying the **Rank 1** checkpoint from CPT and loads it as the seed for SFT.
+The script `cpt_sft_final.py` (`cpt_sft_12b.py`) automates the transition between phases by identifying the **Rank 1** checkpoint from CPT and loads it as the seed for SFT.
 
 ### 2. Intelligent Checkpoint Selection
 We move beyond simple step-based saving. Our callbacks monitor:
@@ -77,9 +77,11 @@ The pipeline generates real-time ranking reports:
 
 ## Model Download
 > **SARC-Taigi-LLM** is now available on Hugging Face!  
-> **[Download the Model Weights here: [SARC-Taigi-LLM](https://huggingface.co/Speech-AI-Research-Center/SARC-Taigi-LLM)]**
+> **[Download the Model Weights here: [SARC-Taigi-LLM-27b](https://huggingface.co/Speech-AI-Research-Center/SARC-Taigi-LLM-27b)]**
+> **[Download the Model Weights here: [SARC-Taigi-LLM-12b](https://huggingface.co/Speech-AI-Research-Center/SARC-Taigi-LLM-12b)]**
 
 ---
 
 ## License
+
 
