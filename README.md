@@ -82,6 +82,45 @@ The pipeline generates real-time ranking reports:
 
 ---
 
+## Environment Requirements
+
+### Hardware
+* **GPU**: Minimum 1x NVIDIA GPU with 80GB VRAM (e.g., A100 or H100) is recommended for fine-tuning the 27B model.
+* **Multi-GPU**: Highly recommended using 2+ GPUs for faster training and larger effective batch sizes via Distributed Data Parallel (DDP).
+
+### Software & Dependencies
+* **OS**: Linux (recommended)
+* **Python**: 3.11+
+* **CUDA**: 12.1+
+* **Key Libraries**: 
+    * `torch`, `transformers`, `peft`, `datasets`, `bitsandbytes`, `accelerate`, `wandb`.
+
+* **Install all dependencies via pip**:
+    ```bash
+    pip install torch transformers peft datasets bitsandbytes accelerate wandb
+    ```
+
+---
+
+## Execution
+
+The script `cpt_sft_27b.py` is hardware-aware and automatically optimizes settings (e.g., `use_reentrant: False`, `dataloader_num_workers`, and `pin_memory`) based on the detected GPU count.
+
+### Recommended Launch Method (`torchrun`)
+Using `torchrun` is required to ensure proper environment variable injection (`LOCAL_RANK`) and process synchronization across all nodes.
+
+* **Single-GPU Execution**:
+    ```bash
+    torchrun --nproc_per_node=1 cpt_sft_27b.py
+    ```
+* **Multi-GPU Execution (DDP Mode)**:
+    ```bash
+    # Example for 2 GPUs
+    torchrun --nproc_per_node=2 cpt_sft_27b.py
+    ```
+
+---
+
 ## License
 
 
