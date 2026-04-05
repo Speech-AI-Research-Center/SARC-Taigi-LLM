@@ -18,7 +18,7 @@ Our project is designed as a three-stage technical stack to build a Taigi model 
 ### 2. Phase II: Supervised Fine-Tuning (SFT) - *Current Status*
 * **Goal**: Align the model to follow instructions and perform logical reasoning in Taigi.
 * **Key Datasets**: 
-    * `alpaca_gpt4_data_zh_tw.json`: Taigi-version Alpaca instruction set for dialogue alignment.
+    * `alpaca_translated_dataset_taigi_zh_tw.json`: Taigi-version Alpaca instruction set for dialogue alignment.
     * `tech_training_dataset.json`: Multiple-choice questions from the training text of the 1st **"Grand Challenge" (科技大擂台)** competition (Taigi-version).
 * **Strategy**: Uses **`AsyncGapMinimizationCallback`** to minimize the **Generalization Gap** ($|Avg(TrainLoss) - EvalLoss|$).
 * **Benefit**: Employs asynchronous sampling (Moving Average) to filter out overfitted checkpoints, identifying the most stable models to provide a reliable foundation for future RL stages.
