@@ -62,9 +62,9 @@ A live demo of the released Taigi LLM is available at:
 * QA Examples
 
 <div style="display: flex; justify-content: center; align-items: center;">
-  <img src="TaigiLLM-1.png" style="width: 45%; margin: 5px;">
-  <img src="TaigiLLM-2-1.png" style="width: 30%; margin: 5px;">
-  <img src="TaigiLLM-2-2.png" style="width: 30%; margin: 5px;">
+  <img src="TaigiLLM-1.png" style="width: 50%; margin: 5px;">
+  <img src="TaigiLLM-2-1.png" style="width: 24%; margin: 5px;">
+  <img src="TaigiLLM-2-2.png" style="width: 24%; margin: 5px;">
 </div>
 
 ---
