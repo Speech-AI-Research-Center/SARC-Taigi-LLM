@@ -646,7 +646,7 @@ def main():
     training_args = TrainingArguments(**training_config)
 
     early_stopping_callback = EarlyStoppingCallback(
-        early_stopping_patience=3,
+        early_stopping_patience=5,
         early_stopping_threshold=0.001,
     )
     save_callback = AsyncGapMinimizationCallback(
