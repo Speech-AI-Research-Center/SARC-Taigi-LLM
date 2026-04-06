@@ -23,7 +23,6 @@ from peft import PeftModel
 def format_lr(val):
     s = f"{val:e}"
     base, exp = s.split("e")
-    print(s, base, exp)
     base = base.rstrip('0').rstrip('.')
     return f"{base}e{int(exp)}"
 
