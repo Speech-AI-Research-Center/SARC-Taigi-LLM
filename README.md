@@ -71,18 +71,19 @@ A live demo of the released Taigi LLM is available at:
 
 ## Evaluation
 
-We evaluated the 27B model on the **2020 Grand Challenge, Talk to AI (科技大擂台，與 AI 對話) Final-Test Dataset**, which contains **1,000 multiple-choice reading comprehension questions** for Taigi language understanding.
+We evaluated the models on the **<<2020 Grand Challenge, Talk to AI (科技大擂台，與 AI 對話)>> Final-Test Dataset**, which contains **1,000 multiple-choice reading comprehension questions** for Taigi language understanding.
 
 * Question Example
 <img src="question-1.png" width="100%"> 
 
 * Experimental Results
 
-| Stage | Accuracy | Note |
-| :--- | :---: | :--- |
-| **Gemma-3-27b-it (Base)** | **0.86214** | Baseline performance |
-| **After CPT** | **0.92296** | Knowledge internalization |
-| **After SFT** | **0.92582** | Instruction alignment |
+|  | Model | Accuracy | Note |
+| :--- | :---: | :---: | :--- |
+| Stage | Gemma-3-12b-it | Gemma-3-27b-it |  |
+| **Original** | **0.80320** | **0.86214** | Baseline performance |
+| **After CPT** | **0.88312** | **0.92296** | Knowledge internalization |
+| **After SFT** | **0.89610** | **0.92582** | Instruction alignment |
 
 These results suggest that CPT substantially improves Taigi knowledge acquisition, while SFT provides an additional gain through instruction alignment.
 
@@ -136,25 +137,16 @@ In addition to these literary corpora, the pipeline also uses:
 This project follows a three-phase training framework. In the current release, **Phase I (CPT)** and **Phase II (SFT)** are implemented in unified training scripts (`cpt_sft_27b.py` and `cpt_sft_12b.py`), while **Phase III (GRPO)** remains planned future work.
 
 ### Phase I: Continual Pre-Training (CPT)
-
-**Status:** Completed
-
 - **Goal**: Expand the base model's Taigi knowledge using lexical and literary resources.
 - **Training strategy**: Uses `SaveBestCheckpointsCallback` to rank and retain checkpoints based on evaluation loss.
 - **Expected effect**: Strengthens Taigi vocabulary coverage, linguistic pattern acquisition, and cultural grounding while reducing catastrophic forgetting of the base model's general capabilities.
 
 ### Phase II: Supervised Fine-Tuning (SFT)
-
-**Status:** Current release
-
 - **Goal**: Align the model with instruction-following behavior and reasoning-oriented tasks in Taigi.
 - **Training strategy**: Uses `AsyncGapMinimizationCallback` to minimize the generalization gap, defined as `|Avg(TrainLoss) - EvalLoss|`.
 - **Expected effect**: Filters out overfitted checkpoints through asynchronous moving-average sampling and selects more stable models for subsequent training stages.
 
 ### Phase III: GRPO (Planned)
-
-**Status:** Planned
-
 - **Goal**: Extend the training pipeline from supervised learning to reinforcement learning.
 - **Planned direction**: Apply **GRPO (Group Relative Policy Optimization)** to improve reasoning performance on more complex Taigi linguistic tasks and technical queries.
 - **Expected effect**: Improve self-correction, logical consistency, and robustness in low-resource language settings through group-relative reward optimization.
