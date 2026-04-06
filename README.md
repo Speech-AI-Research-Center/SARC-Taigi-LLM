@@ -252,15 +252,35 @@ torchrun --nproc_per_node=1 cpt_sft_12b.py
 
 ## Citation
 
-If you find this project useful, please cite it as:
+If you find this project useful, please cite the **IMA's Taiwan Tongues** resource page and the **Speech AI Research Center** organization pages on Hugging Face and GitHub.
 
 ```bibtex
-@misc{sarctaigillm2026,
-  title        = {SARC-Taigi-LLM: An Implementation-Oriented Training Project for Building a Taiwanese (Taigi) LLM with IMA's Taiwan Tongues Datasets},
+@misc{ima_taiwan_2026,
+  title        = {IMA-Taiwan},
+  author       = {Information Management Association of R.O.C. (IMA)},
+  year         = {2026},
+  howpublished = {\url{https://huggingface.co/IMA-Taiwan}},
+  note         = {Hugging Face organization page for Taiwan Tongues resources}
+}
+```
+
+```bibtex
+@misc{sarc_hf_2026,
+  title        = {Speech-AI-Research-Center},
   author       = {Speech AI Research Center (SARC)},
   year         = {2026},
-  howpublished = {\url{https://github.com/Speech-AI-Research-Center/SARC-Taigi-LLM}},
-  note         = {GitHub repository}
+  howpublished = {\url{https://huggingface.co/Speech-AI-Research-Center}},
+  note         = {Hugging Face organization page for released Taigi model adapters}
+}
+```
+
+```bibtex
+@misc{sarctaigillm_repo_2026,
+  title        = {Speech-AI-Research-Center},
+  author       = {Speech AI Research Center (SARC)},
+  year         = {2026},
+  howpublished = {\url{https://github.com/Speech-AI-Research-Center}},
+  note         = {GitHub organization page for released Taigi-LLM training project}
 }
 ```
 
