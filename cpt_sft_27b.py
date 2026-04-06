@@ -590,7 +590,7 @@ def main():
 
     # Dynamic parameter adjustment for Single vs Multi-GPU
     now = datetime.datetime.now().strftime('%y%m%d')
-    lr = 1e-4
+    lr = 2e-4
     if gpu_num == 1: train_batch_size, accumulation_steps, total_limit, train_epochs = 2, 128, 10, 1.5
     elif gpu_num == 2: train_batch_size, accumulation_steps, total_limit, train_epochs = 4, 32, 10, 1.5
     else: train_batch_size, accumulation_steps, total_limit, train_epochs = 2, 16, 10, 1.5
