@@ -78,7 +78,7 @@ def main():
     model.config.use_cache = False
 
     tokenizer = AutoTokenizer.from_pretrained(
-        base_model_name,
+        pretrained_model_name_or_path=base_model_name if model_name==base_model_name else model_name,
         trust_remote_code=True,
         padding_side="right",
         add_eos_token=True,
@@ -419,12 +419,18 @@ def main():
 
     # Custom Callback: Save checkpoints based on Generalization Gap (Train vs Eval Loss)
     class AsyncGapMinimizationCallback(TrainerCallback):
-        def __init__(self, save_total_limit=5, outputDir=f"training_results_{datetime.datetime.now().strftime('%y%m%d')}.txt"):
+        def __init__(self, save_total_limit=5, min_eval_steps=5, outputDir=None):
+            """
+            Custom Callback to save checkpoints based on the Generalization Gap (abs(Train Loss - Eval Loss)).
+            It includes a warm-up period to avoid saving early, under-trained checkpoints.
+            """
             self.save_total_limit = save_total_limit
             self.train_loss_buffer = []
             self.checkpoints = []
             self.pending_save = None
-            self.outputDir = outputDir
+            self.outputDir = outputDir or f"training_results_{datetime.datetime.now().strftime('%y%m%d')}.txt"
+            self.min_eval_steps = min_eval_steps  # Threshold: start saving only after N evaluations
+            self.eval_count = 0 # Counter for evaluation occurrences
             
         def on_log(self, args, state: TrainerState, control: TrainerControl, logs=None, **kwargs):
             if logs is None: return control
@@ -434,6 +440,16 @@ def main():
             
             if 'eval_loss' in logs:
                 should_save_this = False
+                self.eval_count += 1
+                
+                # --- Warm-up Check ---
+                # If we haven't reached the minimum evaluation steps, skip the saving logic
+                if self.eval_count <= self.min_eval_steps:
+                    if self._is_main_process(args):
+                        print(f"\n[Step {state.global_step}] Warm-up: Eval {self.eval_count}/{self.min_eval_steps}. Skipping checkpoint.")
+                    self.train_loss_buffer = [] # Clear buffer to ensure we only use fresh losses for the next gap calculation
+                    return control
+
                 current_eval_loss = logs['eval_loss']
                 if self._is_main_process(args):
                     if len(self.train_loss_buffer) > 0:
@@ -590,17 +606,18 @@ def main():
     # Dynamic parameter adjustment for Single vs Multi-GPU
     now = datetime.datetime.now().strftime('%y%m%d')
     lr = 2.5e-4
+    multiple=10
     if gpu_num == 1: train_batch_size, accumulation_steps, total_limit, train_epochs = 2, 96, 10, 1.5
     elif gpu_num == 2: train_batch_size, accumulation_steps, total_limit, train_epochs = 4, 24, 10, 1.5
     else: train_batch_size, accumulation_steps, total_limit, train_epochs = 2, 12, 2, 1.5
-    outputDir = f"models/output_gemma3_12b_sft_{now}_{format_lr(lr)}_b{train_batch_size*accumulation_steps}x{gpu_num}_cosine_{train_epochs}epo_gap"
-    runName = f"gemma3_12b_sft_{now}_{format_lr(lr)}_b{train_batch_size*accumulation_steps}x{gpu_num}_cosine_{train_epochs}epo_gap"
+    outputDir = f"models/output_gemma3_27b_sft_{now}_{format_lr(lr)}_b{train_batch_size*accumulation_steps}x{gpu_num}_cosine_{train_epochs}epo_gap_{multiple}n"
+    runName = f"gemma3_27b_sft_{now}_{format_lr(lr)}_b{train_batch_size*accumulation_steps}x{gpu_num}_cosine_{train_epochs}epo_gap_{multiple}n"
     
     dataloader_num = 4
     split_num = 25
     saveSteps = math.ceil(len(train_dataset)/(train_batch_size*accumulation_steps*gpu_num*split_num*10))
-    maxSteps=int(saveSteps*math.ceil(split_num*train_epochs)*10)
-    evalSteps = int(10*saveSteps)
+    maxSteps = int(saveSteps*math.ceil(split_num*train_epochs)*10)
+    evalSteps = int(multiple*saveSteps)
     print(f"SFT stats: {len(train_dataset)} items, saveSteps={saveSteps}, maxSteps={maxSteps}")
     torch.cuda.empty_cache()
     
@@ -649,8 +666,9 @@ def main():
         early_stopping_threshold=0.001,
     )
     save_callback = AsyncGapMinimizationCallback(
-        save_total_limit=total_limit,
-        outputDir=f"{outputDir}/async_gap_results_{now}.txt"
+        save_total_limit = total_limit,
+        min_eval_steps = 5 * round(10/multiple),
+        outputDir = f"{outputDir}/async_gap_results_{now}.txt"
     )
     
     trainer = Trainer(
