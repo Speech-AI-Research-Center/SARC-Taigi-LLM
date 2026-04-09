@@ -605,8 +605,8 @@ def main():
 
     # Dynamic parameter adjustment for Single vs Multi-GPU
     now = datetime.datetime.now().strftime('%y%m%d')
-    lr = 1.75e-4
-    multiple = 5
+    lr = 1.5e-4
+    multiple = 10
     if gpu_num == 1: train_batch_size, accumulation_steps, total_limit, train_epochs = 2, 128, 10, 1.5
     elif gpu_num == 2: train_batch_size, accumulation_steps, total_limit, train_epochs = 4, 32, 10, 1.5
     else: train_batch_size, accumulation_steps, total_limit, train_epochs = 2, 16, 10, 1.5
@@ -667,7 +667,7 @@ def main():
     )
     save_callback = AsyncGapMinimizationCallback(
         save_total_limit = total_limit,
-        min_eval_steps = 5 * round(10/multiple),
+        min_eval_steps = 9 * round(10/multiple),
         outputDir = f"{outputDir}/async_gap_results_{now}.txt"
     )
     

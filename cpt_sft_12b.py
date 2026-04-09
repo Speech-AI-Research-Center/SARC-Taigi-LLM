@@ -667,7 +667,7 @@ def main():
     )
     save_callback = AsyncGapMinimizationCallback(
         save_total_limit = total_limit,
-        min_eval_steps = 5 * round(10/multiple),
+        min_eval_steps = 9 * round(10/multiple),
         outputDir = f"{outputDir}/async_gap_results_{now}.txt"
     )
     
