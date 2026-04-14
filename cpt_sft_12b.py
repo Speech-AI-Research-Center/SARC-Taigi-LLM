@@ -610,8 +610,8 @@ def main():
     if gpu_num == 1: train_batch_size, accumulation_steps, total_limit, train_epochs = 2, 96, 10, 1.5
     elif gpu_num == 2: train_batch_size, accumulation_steps, total_limit, train_epochs = 4, 24, 10, 1.5
     else: train_batch_size, accumulation_steps, total_limit, train_epochs = 2, 12, 2, 1.5
-    outputDir = f"models/output_gemma3_27b_sft_{now}_{format_lr(lr)}_b{train_batch_size*accumulation_steps}x{gpu_num}_cosine_{train_epochs}epo_gap_{multiple}n"
-    runName = f"gemma3_27b_sft_{now}_{format_lr(lr)}_b{train_batch_size*accumulation_steps}x{gpu_num}_cosine_{train_epochs}epo_gap_{multiple}n"
+    outputDir = f"models/output_gemma3_12b_sft_{now}_{format_lr(lr)}_b{train_batch_size*accumulation_steps}x{gpu_num}_cosine_{train_epochs}epo_gap_{multiple}n"
+    runName = f"gemma3_12b_sft_{now}_{format_lr(lr)}_b{train_batch_size*accumulation_steps}x{gpu_num}_cosine_{train_epochs}epo_gap_{multiple}n"
     
     dataloader_num = 4
     split_num = 25
